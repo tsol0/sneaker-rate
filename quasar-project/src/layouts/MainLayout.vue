@@ -47,6 +47,14 @@ const linksList = [
     link: "http://localhost:9000/#/",
   },
   {
+    title: "User Registration",
+    link: "http://localhost:9000/#/register",
+  },
+  {
+    title: "User Login",
+    link: "http://localhost:9000/#/login",
+  },
+  {
     title: "Sneaker Review Form",
     link: "http://localhost:9000/#/reviewform",
   },

@@ -1,9 +1,9 @@
 <template>
   <q-page padding>
-    <q-form @submit="login">
+    <q-form @submit="register">
       <q-input v-model="email" label="Email" outlined />
       <q-input v-model="password" label="Password" type="password" outlined />
-      <q-btn type="submit" label="Login" color="primary" />
+      <q-btn type="submit" label="Register" color="primary" />
     </q-form>
     <p v-if="error">{{ error }}</p>
   </q-page>
@@ -11,7 +11,7 @@
 
 <script setup>
 import { ref } from 'vue';
-// import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+// import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 
 // const auth = getAuth();
 
@@ -19,11 +19,11 @@ const email = ref('');
 const password = ref('');
 const error = ref(null);
 
-const login = async () => {
+const register = async () => {
   try {
-    // const userCredential = await signInWithEmailAndPassword(auth, email.value, password.value);
-    // console.log('User logged in:', userCredential.user);
-    console.log("login happening");
+    console.log("This worked"+ email.value + password.value);
+    // const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
+    // console.log('User registered:', userCredential.user);
   } catch (err) {
     error.value = err.message;
   }
@@ -33,3 +33,4 @@ const login = async () => {
 <style scoped>
 /* Add your styles here */
 </style>
+
