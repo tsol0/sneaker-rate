@@ -40,7 +40,7 @@
 
 <script setup>
 import { ref, watch } from "vue";
-import { useStore } from "src/stores/StoreReviews";
+import { useReviewsStore } from "src/stores/StoreReviews";
 
 const props = defineProps({
   review: Object,
@@ -62,7 +62,7 @@ const closeDialog = () => {
   emit("close-dialog");
 };
 
-const store = useStore();
+const store = useReviewsStore();
 
 const removeReview = async (id) => {
   await store.deleteReview(id);

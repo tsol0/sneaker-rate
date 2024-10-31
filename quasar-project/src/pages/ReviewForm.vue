@@ -10,25 +10,25 @@
         outlined
         required
       />
-      <!-- <q-uploader
-        url="http://localhost:4444/upload"
-        label="Upload files"
-        color="primary"
-        square
-        flat
-        bordered
-        style="max-width: 300px"
-      /> -->
-      <q-rating
-        v-model="rating"
-        max="5"
-        size="2em"
-        color="yellow"
-        icon="star_border"
-        icon-selected="star"
-        icon-half="star_half"
-        no-dimming
-      />
+      <div class="q-pa-md">
+        <q-uploader
+          url="http://localhost:4444/upload"
+          label="Batch upload"
+          multiple
+          batch
+          style="max-width: 300px"
+        />
+        <q-rating
+          v-model="rating"
+          max="5"
+          size="2em"
+          color="yellow"
+          icon="star_border"
+          icon-selected="star"
+          icon-half="star_half"
+          no-dimming
+        />
+      </div>
       <!-- <q-rating v-model="rating" :max="5" required /> -->
       <div class="form-actions">
         <q-btn type="submit" label="Submit" color="primary" />
@@ -43,9 +43,9 @@ defineOptions({
 });
 
 import { ref } from "vue";
-import { useStore } from "../stores/StoreReviews";
+import { useReviewsStore } from "../stores/StoreReviews";
 
-const store = useStore();
+const store = useReviewsStore();
 
 const review = ref("");
 const rating = ref(0);

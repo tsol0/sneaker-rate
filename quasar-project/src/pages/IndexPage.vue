@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-    <q-list bordered>
+    <q-list>
       <q-item v-for="review in reviewsList" :key="review.id" clickable>
         <ReviewCard :review="review" @open-dialog="showDialog" />
       </q-item>
@@ -20,7 +20,7 @@ defineOptions({
 });
 
 import { ref, onMounted } from "vue";
-import { useStore } from "../stores/StoreReviews";
+import { useReviewsStore } from "../stores/StoreReviews";
 
 import ReviewCard from "components/ReviewCard.vue";
 import ReviewDialog from "components/ReviewDialog.vue";
@@ -31,7 +31,7 @@ const reviewsList = ref([]);
 const dialogVisible = ref(false);
 const selectedReview = ref(null);
 
-const store = useStore();
+const store = useReviewsStore();
 
 onMounted(async () => {
   await loadReviews();

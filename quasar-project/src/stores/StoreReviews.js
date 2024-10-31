@@ -9,9 +9,10 @@ import {
   updateDoc,
 } from "firebase/firestore";
 
-export const useStore = defineStore("firebaseStore", {
+export const useReviewsStore = defineStore("firebaseStore", {
   state: () => ({
-    reviews: null,
+    reviews: Object,
+    isLoading: false
   }),
   actions: {
     async getReviews() {

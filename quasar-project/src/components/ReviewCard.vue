@@ -5,7 +5,8 @@
       <q-item-label>{{ review.sneakername }}</q-item-label>
       <q-item-label caption>by {{ review.username }}</q-item-label>
       <q-item-label>{{ review.review }}</q-item-label>
-      <q-item-label>{{ review.rating }}/5</q-item-label>
+      <!-- <q-item-label>{{ review.rating }}/5</q-item-label> -->
+       <q-rating model-value="{{review.rating}}"></q-rating>
     </q-card-section>
   </q-card>
 </template>
