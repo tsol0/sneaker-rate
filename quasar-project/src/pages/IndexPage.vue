@@ -2,6 +2,9 @@
   <q-page padding>
     <q-list>
       <q-item v-for="review in reviewsList" :key="review.id" clickable>
+        <div v-if="condition">
+          <img src="" alt="hello">
+        </div>
         <ReviewCard :review="review" @open-dialog="showDialog" />
       </q-item>
     </q-list>
@@ -25,7 +28,6 @@ import { useReviewsStore } from "../stores/StoreReviews";
 import ReviewCard from "components/ReviewCard.vue";
 import ReviewDialog from "components/ReviewDialog.vue";
 
-// import {  } from "module";
 
 const reviewsList = ref([]);
 const dialogVisible = ref(false);

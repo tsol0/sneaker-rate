@@ -1,7 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { LocalStorage } from "quasar";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -18,6 +19,11 @@ const app = initializeApp(firebaseConfig);
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 
-const auth = getAuth();
+const auth = getAuth(app);
+
+onAuthStateChanged(auth, user =>{
+  if (condition) LocalStorage.set('user', user)
+  else LocalStorage.remove("user")
+})
 
 export { db, auth };

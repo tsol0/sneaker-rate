@@ -1,36 +1,84 @@
 <template>
-  <q-page padding>
-    <q-form @submit="register">
-      <q-input v-model="email" label="Email" outlined />
-      <q-input v-model="password" label="Password" type="password" outlined />
-      <q-btn type="submit" label="Register" color="primary" />
-    </q-form>
-    <p v-if="error">{{ error }}</p>
-  </q-page>
-</template>
+  <!-- Template by Joabson Arley
+   https://github.com/Joabsonlg/quasar-template -->
 
-<script setup>
-import { ref } from 'vue';
-// import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+  <q-card class="q-ma-xl">
+   <div class="row">
+    <div class="col-0 col-sm-5 bg-primary rounded-left-borders xs-hide">
+     <div class="row full-width q-px-xl q-pb-xl full-height flex flex-center">
+      <div class="">
+       <div class="text-h4 text-uppercase text-white fredoka" style="min-width: 220px">Welcome!</div>
+       <div class="text-white q-my-sm text-subtitle1">Enter your details to get started!
+       </div>
+      </div>
+     </div>
+    </div>
 
-// const auth = getAuth();
+    <div class="col-12 col-sm-7">
+     <div class="row q-ml-sm q-mt-sm sm-and-up-hide">
+      <div class="col-12 fredoka text-subtitle1">
+       <router-link class="text-primary" style="text-decoration: none" to="/">
+        System Name
+       </router-link>
+      </div>
+     </div>
+     <div class="row q-pa-sm-sm q-pa-md">
+      <div class="col-12">
+       <q-card-section>
+        <div class="q-mb-xl">
+         <div class="flex justify-center">
+          <div class="text-h4 text-uppercase q-my-none text-weight-bold text-primary fredoka">
+           Registration Form</div>
+         </div>
+        </div>
 
-const email = ref('');
-const password = ref('');
-const error = ref(null);
+        <q-form ref="form" class="q-gutter-md" @submit="submit">
+         <q-input v-model="user.first_name" label="First Name" name="First Name" />
+         <q-input v-model="user.last_name" label="Last Name" name="Last Name" />
+         <q-input v-model="user.email" label="Email" name="Email" />
+         <q-input v-model="user.password" label="Password" name="password" type="password" />
 
-const register = async () => {
-  try {
-    console.log("This worked"+ email.value + password.value);
-    // const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
-    // console.log('User registered:', userCredential.user);
-  } catch (err) {
-    error.value = err.message;
+         <div>
+          <q-btn class="full-width fredoka" color="primary" label="Register" rounded
+           type="submit"></q-btn>
+
+          <div class="q-mt-lg">
+           <div class="q-mt-sm">
+            Already have an account?
+            <router-link class="text-primary" to="/login">Login</router-link>
+           </div>
+          </div>
+         </div>
+        </q-form>
+       </q-card-section>
+      </div>
+     </div>
+    </div>
+   </div>
+  </q-card>
+ </template>
+
+ <script setup>
+ import register from 'src/firebase/firebase-register';
+import { ref, reactive } from 'vue'
+ register
+import { useRouter } from 'vue-router';
+useRouter
+
+ const user = reactive({
+  last_name: null,
+  first_name: null,
+  email: null,
+  password: null
+ })
+
+ const form = ref(null)
+
+ const submit = async () => {
+  if (form.value.validate() && !!await register(user)) {
+    const router = useRouter()
+    router.push('/app')
   }
-};
-</script>
-
-<style scoped>
-/* Add your styles here */
-</style>
+ }
+ </script>
 
