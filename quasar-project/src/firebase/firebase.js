@@ -3,6 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { LocalStorage } from "quasar";
+import { getStorage } from "firebase/storage"
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -12,6 +13,7 @@ const firebaseConfig = {
   storageBucket: "shoe-blogger-app.appspot.com",
   messagingSenderId: "663573109748",
   appId: "1:663573109748:web:48029211cdba0df6a077a1",
+  storageBucket: "shoe-blogger-app.appspot.com"
 };
 
 // Initialize Firebase
@@ -21,9 +23,11 @@ const db = getFirestore(app);
 
 const auth = getAuth(app);
 
+const storage = getStorage();
+
 onAuthStateChanged(auth, user =>{
   if (user) LocalStorage.set('user', user)
   else LocalStorage.remove("user")
 })
 
-export { db, auth };
+export { db, auth, storage };

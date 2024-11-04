@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { db } from "src/firebase/firebase";
+import { db, storage } from "src/firebase/firebase";
 import {
   collection,
   getDocs,
@@ -8,6 +8,7 @@ import {
   doc,
   updateDoc,
 } from "firebase/firestore";
+import { ref } from "firebase/storage";
 import { Loading } from "quasar";
 
 export const useReviewsStore = defineStore("firebaseStore", {
@@ -16,6 +17,20 @@ export const useReviewsStore = defineStore("firebaseStore", {
     isLoading: false
   }),
   actions: {
+    async getImagebyUser(username, id){
+      try {
+        Loading.show()
+        const pathReference = ref(storage, 'images/stars.jpg');
+        // Create a reference from a Google Cloud Storage URI
+        const gsReference = ref(storage, 'gs://bucket/images/stars.jpg');
+
+        // Create a reference from an HTTPS URL
+        // Note that in the URL, characters are URL escaped!
+        const httpsReference = ref(storage, 'https://firebasestorage.googleapis.com/b/bucket/o/images%20stars.jpg');
+      } catch (err) {
+       console.error(err);
+      }
+    },
     async getReviews() {
       Loading.show()
       const reviewsCollection = collection(db, "reviews")
