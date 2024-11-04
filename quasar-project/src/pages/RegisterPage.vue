@@ -18,7 +18,7 @@
      <div class="row q-ml-sm q-mt-sm sm-and-up-hide">
       <div class="col-12 fredoka text-subtitle1">
        <router-link class="text-primary" style="text-decoration: none" to="/">
-        System Name
+        Sneaker Rate
        </router-link>
       </div>
      </div>
