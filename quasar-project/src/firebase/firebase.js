@@ -22,7 +22,7 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 onAuthStateChanged(auth, user =>{
-  if (condition) LocalStorage.set('user', user)
+  if (user) LocalStorage.set('user', user)
   else LocalStorage.remove("user")
 })
 

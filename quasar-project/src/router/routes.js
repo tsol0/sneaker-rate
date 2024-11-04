@@ -1,13 +1,24 @@
 const routes = [
   {
-    path: "/app",
-    component: () => import("layouts/MainLayout.vue"),
+    path: "/",
+    component: () => import("layouts/AuthLayout.vue"),
     children: [
-      { path: "", component: () => import("pages/IndexPage.vue") },
-      { path: "reviewform", component: () => import("pages/ReviewForm.vue") },
+      {path:"/", redirect:"/login"},
       { path: "register", component: () => import("pages/RegisterPage.vue") },
       { path: "login", component: () => import("pages/LoginPage.vue") }
     ],
+    meta: {auth: false}
+  },
+
+  {
+    path: "/app",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      { path: '', component: () => import("pages/IndexPage.vue") },
+      { path: "reviewform", component: () => import("pages/ReviewForm.vue") }
+
+    ],
+    meta: {auth: true}
   },
 
   // Always leave this as last one,

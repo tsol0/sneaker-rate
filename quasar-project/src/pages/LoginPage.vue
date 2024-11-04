@@ -75,9 +75,9 @@ import { ref, reactive } from 'vue'
   if (form.value.validate()) {
     try {
       await login(user)
-      router.push('/app')
+      router.push('app')
     } catch (err) {
-      console.log("login error");
+      console.error("error", err)
     }
   }
  }

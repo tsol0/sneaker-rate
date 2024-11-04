@@ -12,6 +12,7 @@
         />
 
         <q-toolbar-title> Sneaker Post </q-toolbar-title>
+        <q-btn flat @click="logout">Logout</q-btn>
       </q-toolbar>
     </q-header>
 
@@ -37,6 +38,17 @@
 import { ref } from "vue";
 import EssentialLink from "components/EssentialLink.vue";
 
+import signOutUser from "src/firebase/firebase-signout";
+import { useRouter } from "vue-router";
+
+const router = useRouter()
+
+const logout = () =>{
+  signOutUser().then(() =>{
+    router.push('/login')
+  })
+}
+
 defineOptions({
   name: "MainLayout",
 });
@@ -44,19 +56,11 @@ defineOptions({
 const linksList = [
   {
     title: "Home",
-    link: "http://localhost:9000/#/",
-  },
-  {
-    title: "User Registration",
-    link: "http://localhost:9000/#/register",
-  },
-  {
-    title: "User Login",
-    link: "http://localhost:9000/#/login",
+    link: "http://localhost:9000/app",
   },
   {
     title: "Sneaker Review Form",
-    link: "http://localhost:9000/#/reviewform",
+    link: "http://localhost:9000/app/reviewform",
   },
 ];
 

@@ -8,6 +8,7 @@ import {
   doc,
   updateDoc,
 } from "firebase/firestore";
+import { Loading } from "quasar";
 
 export const useReviewsStore = defineStore("firebaseStore", {
   state: () => ({
@@ -16,11 +17,12 @@ export const useReviewsStore = defineStore("firebaseStore", {
   }),
   actions: {
     async getReviews() {
-      // console.log("Hello");
-      const reviewsCollection = collection(db, "reviews");
-      const reviewsSnapshot = await getDocs(reviewsCollection);
-      const reviewsList = reviewsSnapshot.docs.map((doc) => doc.data());
-      return reviewsList;
+      Loading.show()
+      const reviewsCollection = collection(db, "reviews")
+      const reviewsSnapshot = await getDocs(reviewsCollection)
+      const reviewsList = reviewsSnapshot.docs.map((doc) => doc.data())
+      Loading.hide()
+      return reviewsList
     },
     async addReview(review, rating, username, sneakername) {
       let reviewID = Math.floor(1000000 + Math.random() * 9000000).toString();

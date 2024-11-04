@@ -2,7 +2,7 @@
   <q-page padding>
     <q-list>
       <q-item v-for="review in reviewsList" :key="review.id" clickable>
-        <div v-if="condition">
+        <div v-if="false">
           <img src="" alt="hello">
         </div>
         <ReviewCard :review="review" @open-dialog="showDialog" />
