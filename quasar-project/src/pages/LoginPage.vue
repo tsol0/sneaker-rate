@@ -71,9 +71,9 @@ import { useRouter } from 'vue-router';
  })
 
  const form = ref(null)
+ const router = useRouter()
 
  const submit = async () => {
-  const router = useRouter()
   if (form.value.validate()) {
     try {
       await login(user)// const router = useRouter()

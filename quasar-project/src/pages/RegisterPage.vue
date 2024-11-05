@@ -63,7 +63,6 @@
  import register from 'src/firebase/firebase-register';
 import { useUserStore } from 'src/stores/StoreUsers';
 import { ref, reactive } from 'vue'
- register
 import { useRouter } from 'vue-router';
 
 
@@ -79,11 +78,11 @@ import { useRouter } from 'vue-router';
 
  const store = useUserStore()
 
+ const router = useRouter()
+
  const submit = async () => {
   if (form.value.validate() && !!await register(user)) {
     await store.addUser(user)
-
-    const router = useRouter()
     router.push('/app')
   }
  }

@@ -8,7 +8,7 @@ import {
   doc,
   updateDoc,
 } from "firebase/firestore";
-import { ref } from "firebase/storage";
+// import { ref } from "firebase/storage";
 import { Loading } from "quasar";
 
 export const useReviewsStore = defineStore("firebaseStore", {
