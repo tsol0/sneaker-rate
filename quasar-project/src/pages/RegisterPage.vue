@@ -33,10 +33,11 @@
         </div>
 
         <q-form ref="form" class="q-gutter-md" @submit="submit">
-         <q-input v-model="user.first_name" label="First Name" name="First Name" />
-         <q-input v-model="user.last_name" label="Last Name" name="Last Name" />
-         <q-input v-model="user.email" label="Email" name="Email" />
-         <q-input v-model="user.password" label="Password" name="password" type="password" />
+         <q-input v-model="user.first_name" label="First Name" name="First Name" required/>
+         <q-input v-model="user.last_name" label="Last Name" name="Last Name" required/>
+         <q-input v-model="user.username" label="Username" name="Username" required/>
+         <q-input v-model="user.email" label="Email" name="Email" required/>
+         <q-input v-model="user.password" label="Password" name="password" type="password" required/>
 
          <div>
           <q-btn class="full-width fredoka" color="primary" label="Register" rounded
@@ -60,22 +61,28 @@
 
  <script setup>
  import register from 'src/firebase/firebase-register';
+import { useUserStore } from 'src/stores/StoreUsers';
 import { ref, reactive } from 'vue'
  register
 import { useRouter } from 'vue-router';
-useRouter
+
 
  const user = reactive({
   last_name: null,
   first_name: null,
+  username: null,
   email: null,
   password: null
  })
 
  const form = ref(null)
 
+ const store = useUserStore()
+
  const submit = async () => {
   if (form.value.validate() && !!await register(user)) {
+    await store.addUser(user)
+
     const router = useRouter()
     router.push('/app')
   }
