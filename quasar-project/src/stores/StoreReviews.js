@@ -7,9 +7,14 @@ import {
   deleteDoc,
   doc,
   updateDoc,
+  query,
+  where,
 } from "firebase/firestore";
 // import { ref } from "firebase/storage";
 import { Loading } from "quasar";
+
+const reviewsCollection = collection(db, "reviews")
+
 
 export const useReviewsStore = defineStore("firebaseStore", {
   state: () => ({
@@ -32,11 +37,19 @@ export const useReviewsStore = defineStore("firebaseStore", {
     // },
     async getReviews() {
       Loading.show()
-      const reviewsCollection = collection(db, "reviews")
       const reviewsSnapshot = await getDocs(reviewsCollection)
       const reviewsList = reviewsSnapshot.docs.map((doc) => doc.data())
       Loading.hide()
       return reviewsList
+    },
+
+    async getFilteredReview(username){
+      Loading.show()
+      const q = query(reviewsCollection, where("username", "==", username))
+      const reviewsSnapshot = await getDocs(q)
+      const filteredReviews = reviewsSnapshot.docs.map((doc) => doc.data())
+      Loading.hide()
+      return filteredReviews
     },
     async addReview(review, rating, username, sneakername) {
       let reviewID = Math.floor(1000000 + Math.random() * 9000000).toString();
