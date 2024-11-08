@@ -1,25 +1,26 @@
 <template>
   <q-page padding>
     <q-form @submit="submitReview" class="styled-form">
-      <q-input v-model="sneakername" label="Sneaker name" outlined required />
-      <q-input v-model="username" label="Username" outlined required />
+      <q-input v-model="review.sneakername" label="Sneaker name" outlined required />
+      <q-input v-model="review.username" label="Username" outlined required />
       <q-input
-        v-model="review"
+        v-model="review.review"
         label="Review"
         type="textarea"
         outlined
         required
       />
       <div class="q-pa-md">
-        <q-uploader
+        <!-- <q-uploader
           url="http://localhost:4444/upload"
           label="Batch upload"
           multiple
           batch
           style="max-width: 300px"
-        />
+        /> -->
+        <q-input type="file" v-model="review.file" required/>
         <q-rating
-          v-model="rating"
+          v-model="review.rating"
           max="5"
           size="2em"
           color="yellow"
@@ -27,6 +28,7 @@
           icon-selected="star"
           icon-half="star_half"
           no-dimming
+          required
         />
       </div>
       <!-- <q-rating v-model="rating" :max="5" required /> -->
@@ -42,28 +44,23 @@ defineOptions({
   name: "ReviewForm",
 });
 
-import { ref } from "vue";
+import { reactive } from "vue";
 import { useReviewsStore } from "../stores/StoreReviews";
+import { ref } from "firebase/storage";
 
 const store = useReviewsStore();
 
-const review = ref("");
-const rating = ref(0);
-const username = ref("");
-const sneakername = ref("");
+const review = reactive({
+  review: "",
+  rating: 0,
+  username: "",
+  sneakername: "",
+  file: null
+})
 
 const submitReview = async () => {
   await store.addReview(
-    review.value,
-    rating.value,
-    username.value,
-    sneakername.value
-  );
-
-  review.value = "";
-  rating.value = 0;
-  username.value = "";
-  sneakername.value = "";
+    review);
 };
 </script>
 

@@ -4,9 +4,9 @@
     <q-card-section>
       <q-item-label>{{ review.sneakername }}</q-item-label>
       <q-item-label caption>by {{ review.username }}</q-item-label>
-      <q-img :src="url" alt="" :ratio="12/1"/>
-      <!-- <q-img :src="url" alt=""/>
-      <q-img :src="url" alt=""/> -->
+      <!-- <q-img src="url" alt="" :ratio="12/1"/> -->
+      <q-img :src="review.imageUrl" alt=""/>
+      <!-- <q-img :src="url" alt=""/> -->
       <q-item-label>{{ review.review }}</q-item-label>
       <q-item-label>{{ review.rating }}/5</q-item-label>
       <!-- <RatingComponent :rating="review.rating"/> -->
@@ -20,7 +20,7 @@ import { userImageDownload } from 'src/firebase/firebase-storage-download';
 import { ref } from 'vue';
 
 
-const url = ref("https://picsum.photos/500/300")
+// const url = ref("https://picsum.photos/500/300")
 const props = defineProps({
   review: Object
 })

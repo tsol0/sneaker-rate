@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { db } from "src/firebase/firebase";
+import { db, storage } from "src/firebase/firebase";
 import {
   collection,
   getDocs,
@@ -10,7 +10,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
-// import { ref } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { Loading } from "quasar";
 
 const reviewsCollection = collection(db, "reviews")
@@ -21,20 +21,6 @@ export const useReviewsStore = defineStore("firebaseStore", {
     reviews: Object,
   }),
   actions: {
-    // async getImagebyUser(username, id){
-    //   try {
-    //     Loading.show()
-    //     const pathReference = ref(storage, 'images/stars.jpg');
-    //     // Create a reference from a Google Cloud Storage URI
-    //     const gsReference = ref(storage, 'gs://bucket/images/stars.jpg');
-
-    //     // Create a reference from an HTTPS URL
-    //     // Note that in the URL, characters are URL escaped!
-    //     const httpsReference = ref(storage, 'https://firebasestorage.googleapis.com/b/bucket/o/images%20stars.jpg');
-    //   } catch (err) {
-    //    console.error(err);
-    //   }
-    // },
     async getReviews() {
       Loading.show()
       const reviewsSnapshot = await getDocs(reviewsCollection)
@@ -51,21 +37,31 @@ export const useReviewsStore = defineStore("firebaseStore", {
       Loading.hide()
       return filteredReviews
     },
-    async addReview(review, rating, username, sneakername) {
-      let reviewID = Math.floor(1000000 + Math.random() * 9000000).toString();
+    async addReview(reviewObject) {
+      const reviewID = Math.floor(1000000 + Math.random() * 9000000).toString();
 
       try {
+
+        //image upload to e.g username/reviewid
+        const imageRef = ref(storage, `${reviewObject.username}/${reviewID}/${reviewObject.file.name}`)
+        uploadBytes(imageRef, reviewObject.file).then(snapshot =>{
+          console.log('Uploaded image!')
+        })
+        // const snapshot = await storage.imageRef.put(reviewObject.imageUrl)
+
+        const url = await getDownloadURL(imageRef)
+
         await setDoc(doc(db, "reviews", reviewID), {
-          rating: rating,
-          review: review,
-          sneakername: sneakername,
-          username: username,
+          rating: reviewObject.rating,
+          review: reviewObject.review,
+          sneakername: reviewObject.sneakername,
+          username: reviewObject.username,
+          imageUrl: url,
           id: reviewID,
         });
 
-        // console.log("Document written with ID: ", docRef.id);
       } catch (error) {
-        console.error(error);
+        console.error("The following error occured:", error);
       }
     },
 
@@ -80,7 +76,8 @@ export const useReviewsStore = defineStore("firebaseStore", {
         });
         console.log("Update succesfull");
       } catch (error) {
-        console.log(error);
+        console.error("The following error occured:", error);
+        // console.log(error);
       }
     },
 
