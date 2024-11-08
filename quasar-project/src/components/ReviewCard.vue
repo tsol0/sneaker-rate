@@ -4,6 +4,9 @@
     <q-card-section>
       <q-item-label>{{ review.sneakername }}</q-item-label>
       <q-item-label caption>by {{ review.username }}</q-item-label>
+      <q-img :src="url" alt="" :ratio="12/1"/>
+      <!-- <q-img :src="url" alt=""/>
+      <q-img :src="url" alt=""/> -->
       <q-item-label>{{ review.review }}</q-item-label>
       <q-item-label>{{ review.rating }}/5</q-item-label>
       <!-- <RatingComponent :rating="review.rating"/> -->
@@ -13,15 +16,22 @@
 </template>
 
 <script setup>
-// import { ref, inject } from "vue"
-// import  RatingComponent  from "components/RatingComponent.vue";
+import { userImageDownload } from 'src/firebase/firebase-storage-download';
+import { ref } from 'vue';
 
-// const rating = ref(2)
 
+const url = ref("https://picsum.photos/500/300")
 const props = defineProps({
   review: Object
 })
 
+// const username =
+
+async function getImage() {
+  const url = await userImageDownload(props.review.username, props.review.id)
+ console.log(url)
+ return url
+}
 
 const emit = defineEmits(["open-dialog"])
 
