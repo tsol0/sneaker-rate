@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-    <q-form @submit="submitReview" class="styled-form">
+    <q-form @submit.prevent="submitReview" class="styled-form">
       <q-input v-model="review.sneakername" label="Sneaker name" outlined required />
       <q-input v-model="review.username" label="Username" outlined required />
       <q-input
@@ -18,7 +18,7 @@
           batch
           style="max-width: 300px"
         /> -->
-        <q-input type="file" v-model="review.file" required/>
+        <q-input filled type="file" @update:model-value="upVal" required/>
         <q-rating
           v-model="review.rating"
           max="5"
@@ -48,6 +48,7 @@ import { reactive } from "vue";
 import { useReviewsStore } from "../stores/StoreReviews";
 import { ref } from "firebase/storage";
 
+
 const store = useReviewsStore();
 
 const review = reactive({
@@ -58,10 +59,27 @@ const review = reactive({
   file: null
 })
 
+// const file = ref(null)
+// const inValSubmitted = ref("not sbmitted yet")
+
+const upVal = e =>{
+  review.file = e[0];
+}
+
 const submitReview = async () => {
+  review.file != null ? console.log("hello",review.file.name) : console.log("nope");
+
   await store.addReview(
     review);
+
+    review.sneakername = ""
+    review.username = ""
+    review.rating = 0
+    review.review = ""
+    review.file = null
 };
+
+
 </script>
 
 <style scoped>

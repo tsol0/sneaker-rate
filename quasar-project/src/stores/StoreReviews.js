@@ -42,9 +42,9 @@ export const useReviewsStore = defineStore("firebaseStore", {
 
       try {
 
-        //image upload to e.g username/reviewid
+        // image upload to e.g username/reviewid
         const imageRef = ref(storage, `${reviewObject.username}/${reviewID}/${reviewObject.file.name}`)
-        uploadBytes(imageRef, reviewObject.file).then(snapshot =>{
+        await uploadBytes(imageRef, reviewObject.file).then(snapshot =>{
           console.log('Uploaded image!')
         })
         // const snapshot = await storage.imageRef.put(reviewObject.imageUrl)
