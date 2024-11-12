@@ -33,8 +33,8 @@
         </div>
 
         <q-form ref="form" class="q-gutter-md" @submit="submit">
-         <q-input v-model="user.first_name" label="First Name" name="First Name" required/>
-         <q-input v-model="user.last_name" label="Last Name" name="Last Name" required/>
+         <q-input v-model="user.name" label="First Name" name="First Name" required/>
+         <q-input v-model="user.surname" label="Last Name" name="Last Name" required/>
          <q-input v-model="user.username" label="Username" name="Username" required/>
          <q-input v-model="user.email" label="Email" name="Email" required/>
          <q-input v-model="user.password" label="Password" name="password" type="password" required/>
@@ -67,8 +67,8 @@ import { useRouter } from 'vue-router';
 
 
  const user = reactive({
-  last_name: null,
-  first_name: null,
+  surname: null,
+  name: null,
   username: null,
   email: null,
   password: null
