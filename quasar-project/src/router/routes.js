@@ -15,7 +15,8 @@ const routes = [
     component: () => import("layouts/MainLayout.vue"),
     children: [
       { path: '', component: () => import("pages/IndexPage.vue") },
-      { path: "reviewform", component: () => import("pages/ReviewForm.vue") }
+      { path: "reviewform", component: () => import("pages/ReviewForm.vue") },
+      { path: "profile", component: () => import("pages/ProfilePage.vue") }
 
     ],
     meta: {auth: true}

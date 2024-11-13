@@ -59,7 +59,11 @@ const linksList = [
     link: "http://localhost:9000/app",
   },
   {
-    title: "Sneaker Review Form",
+    title: "My Profile",
+    link: "http://localhost:9000/app/profile"
+  },
+  {
+    title: "Review Form",
     link: "http://localhost:9000/app/reviewform",
   },
 ];
