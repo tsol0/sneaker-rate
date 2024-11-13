@@ -13,8 +13,8 @@ import { db } from "src/firebase/firebase";
         await setDoc(doc(db, "users", userID),{
           email: user.email,
           id: userID,
-          name: user.first_name,
-          surname: user.last_name,
+          name: user.name,
+          surname: user.surname,
           username: user.username,
         });
       } catch (err) {

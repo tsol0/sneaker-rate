@@ -9,7 +9,7 @@ const register = (data) => {
 
   createUserWithEmailAndPassword(auth, data.email, data.password).then(userCredential => {
     updateProfile(userCredential.user, {
-    displayName: data.first_name + " " + data.last_name
+    displayName: data.name + " " + data.surname
    })
 
    Loading.hide()
