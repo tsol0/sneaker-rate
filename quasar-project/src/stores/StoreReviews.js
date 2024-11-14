@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { db, storage } from "src/firebase/firebase";
+import { db, storage, currentUser } from "src/firebase/firebase";
 import {
   collection,
   getDocs,
@@ -38,6 +38,9 @@ export const useReviewsStore = defineStore("firebaseStore", {
       return filteredReviews
     },
     async addReview(reviewObject) {
+      // get user username from firebase and then insert it into the review object
+      // let userID = currentUser.uid;
+      // const currentUserQuery = query()
       const reviewID = Math.floor(1000000 + Math.random() * 9000000).toString();
 
       try {
