@@ -37,14 +37,21 @@
 <script setup>
 import { ref } from "vue";
 import EssentialLink from "components/EssentialLink.vue";
+import { useUserStore } from "src/stores/StoreUsers";
+// import signOutUser from "src/firebase/firebase-signout";
 
-import signOutUser from "src/firebase/firebase-signout";
 import { useRouter } from "vue-router";
+import { currentUser } from "src/firebase/firebase";
 
 const router = useRouter()
 
+const userStore = useUserStore()
+
+// userStore.user = userStore.fetchCurrentUser()
+
 const logout = () =>{
-  signOutUser().then(() =>{
+
+  userStore.userSignOut().then(() =>{
     router.push('/login')
   })
 }

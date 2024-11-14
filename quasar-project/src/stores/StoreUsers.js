@@ -1,8 +1,11 @@
-import { addDoc, collection } from "firebase/firestore"
+import { addDoc, collection, query, getDoc, where } from "firebase/firestore"
 import {defineStore} from "pinia"
 import { Loading, Notify } from "quasar";
 import { db, auth, currentUser } from "src/firebase/firebase";
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
+import { createUserWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth'
+
+const userCollection = collection(db, "users")
+// const userID = currentUser.uid
 
  export const useUserStore = defineStore("fireStore", {
   state: () => ({
@@ -10,10 +13,16 @@ import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
     user: Object
   }),
   actions: {
+    fetchCurrentUser(){
+      // const userRef = doc(db, "users", "")
+      // const userID = currentUser.uid
+      const q = query(userCollection, where("userId", "==", currentUser.uid))
+      const userSnap =  getDoc(q)
+      return userSnap
+    },
     async userRegistration(details){
       Loading.show()
       let isCreated = false
-
       await createUserWithEmailAndPassword(auth, details.email, details.password).then(userCredential => {
         updateProfile(userCredential.user, {
         displayName: details.name + " " + details.surname
@@ -34,9 +43,9 @@ import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
     },
     async addUser(details){
       try {
-        await addDoc(collection(db, "users"), {
+        await addDoc(userCollection, {
           email: details.email,
-          userId: currentUser.uid,
+          userId: userID,
           name: details.name,
           surname: details.surname,
           username: details.username,
@@ -45,6 +54,19 @@ import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
       } catch (err) {
         console.error(err);
       }
+    },
+    async userSignOut(){
+      await signOut(auth).then(() => {
+        Loading.hide()
+        // resolve()
+       }).catch(err => {
+        Loading.hide()
+        Notify.create({
+         type: 'negative',
+         message: err.message
+        })
+        // reject(err.message)
+       })
     }
 
   }
