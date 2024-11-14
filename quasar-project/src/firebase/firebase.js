@@ -23,13 +23,14 @@ const db = getFirestore(app);
 
 const auth = getAuth(app);
 
-
-
 const storage = getStorage(app);
+
 
 onAuthStateChanged(auth, user =>{
   if (user) LocalStorage.set('user', user)
-  else LocalStorage.remove("user")
+    else LocalStorage.remove("user")
 })
 
-export { db, auth, storage };
+const currentUser = auth.currentUser;
+
+export { db, auth, storage, currentUser };
