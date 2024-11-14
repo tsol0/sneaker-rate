@@ -41,13 +41,6 @@ import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
           surname: details.surname,
           username: details.username,
         });
-        // await setDoc(doc(db, "users", userID),{
-        //   email: details.email,
-        //   userid: doc.id,
-        //   name: details.name,
-        //   surname: details.surname,
-        //   username: details.username,
-        // });
         console.log("Succesfull Registration");
       } catch (err) {
         console.error(err);
