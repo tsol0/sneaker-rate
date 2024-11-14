@@ -17,7 +17,7 @@
     </div>
     <h4>All Reviews</h4>
     <q-list>
-      <q-item v-for="review in reviewsList" :key="review.id" clickable>
+      <q-item v-for="review in store.reviews" :key="review.id" clickable>
         <ReviewCard :review="review" @open-dialog="showDialog" />
       </q-item>
     </q-list>
@@ -42,13 +42,13 @@ import ReviewCard from "components/ReviewCard.vue";
 import ReviewDialog from "components/ReviewDialog.vue";
 
 const username = ref("")
-const reviewsList = ref([]);
 
 const filteredReviews = ref([])
 const dialogVisible = ref(false);
 const selectedReview = ref(null);
 
 const store = useReviewsStore();
+
 
 onMounted(async () => {
   await loadReviews();
@@ -64,6 +64,7 @@ const loadFilteredReviews = async () => {
   username.value = ""
 };
 const loadReviews = async () => {
-  reviewsList.value = await store.getReviews();
+  store.reviews = await store.getReviews()
+  // reviewsList.value = await store.getReviews();
 };
 </script>
