@@ -16,9 +16,10 @@ import { Loading } from "quasar";
 const reviewsCollection = collection(db, "reviews")
 
 
-export const useReviewsStore = defineStore("firebaseStore", {
+export const useReviewsStore = defineStore("reviewStore", {
   state: () => ({
     reviews: Object,
+    filteredReviews: null
   }),
   actions: {
     async getReviews() {
@@ -26,16 +27,19 @@ export const useReviewsStore = defineStore("firebaseStore", {
       const reviewsSnapshot = await getDocs(reviewsCollection)
       const reviewsList = reviewsSnapshot.docs.map((doc) => doc.data())
       Loading.hide()
-      return reviewsList
+      this.reviews = reviewsList
+      // return reviewsList
     },
 
     async getFilteredReview(username){
       Loading.show()
       const q = query(reviewsCollection, where("username", "==", username))
       const reviewsSnapshot = await getDocs(q)
-      const filteredReviews = reviewsSnapshot.docs.map((doc) => doc.data())
+      reviews = reviewsSnapshot.docs.map((doc) => doc.data())
+
       Loading.hide()
-      return filteredReviews
+      this.filteredReviews = reviews
+      // return filteredReviews
     },
     async addReview(reviewObject) {
       // get user username from firebase and then insert it into the review object

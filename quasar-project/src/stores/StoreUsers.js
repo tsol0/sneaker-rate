@@ -7,15 +7,13 @@ import { createUserWithEmailAndPassword, signOut, updateProfile } from 'firebase
 const userCollection = collection(db, "users")
 // const userID = currentUser.uid
 
- export const useUserStore = defineStore("fireStore", {
+ export const useUserStore = defineStore("userStore", {
   state: () => ({
     users: Object,
     user: Object
   }),
   actions: {
     fetchCurrentUser(){
-      // const userRef = doc(db, "users", "")
-      // const userID = currentUser.uid
       const q = query(userCollection, where("userId", "==", currentUser.uid))
       const userSnap =  getDoc(q)
       return userSnap
