@@ -2,7 +2,7 @@ import { addDoc, collection, query, getDoc, where } from "firebase/firestore"
 import {defineStore} from "pinia"
 import { Loading, Notify } from "quasar";
 import { db, auth, currentUser } from "src/firebase/firebase";
-import { createUserWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth'
+import { createUserWithEmailAndPassword, signOut, updateProfile, signInWithEmailAndPassword } from 'firebase/auth'
 
 const userCollection = collection(db, "users")
 // const userID = currentUser.uid
@@ -13,11 +13,11 @@ const userCollection = collection(db, "users")
     user: Object
   }),
   actions: {
-    fetchCurrentUser(){
-      const q = query(userCollection, where("userId", "==", currentUser.uid))
-      const userSnap =  getDoc(q)
-      return userSnap
-    },
+    // fetchCurrentUser(){
+    //   const q = query(userCollection, where("userId", "==", currentUser.uid))
+    //   const userSnap =  getDoc(q)
+    //   return userSnap
+    // },
     async userRegistration(details){
       Loading.show()
       let isCreated = false
@@ -65,8 +65,24 @@ const userCollection = collection(db, "users")
         })
         // reject(err.message)
        })
-    }
-
+    },
+    async login(details){
+      let isLoggedIn = false
+      Loading.show()
+      await signInWithEmailAndPassword(auth, details.email, details.password).then(userCredential => {
+        isLoggedIn = true
+        Loading.hide()
+        //  resolve(userCredential.user)
+        }).catch(err => {
+          Loading.hide()
+          Notify.create({
+            type: 'negative',
+            message: err.message
+         })
+        //  reject(err.message)
+        })
+      return isLoggedIn
+    },
   }
 })
 
