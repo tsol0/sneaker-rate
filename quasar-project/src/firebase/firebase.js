@@ -1,9 +1,11 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signOut, updateProfile, signInWithEmailAndPassword} from "firebase/auth";
 import { LocalStorage } from "quasar";
 import { getStorage } from "firebase/storage"
+import { Loading, Notify } from "quasar";
+
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -33,4 +35,73 @@ onAuthStateChanged(auth, user =>{
 
 const currentUser = auth.currentUser;
 
-export { db, auth, storage, currentUser };
+async function userRegistration(details){
+  Loading.show()
+  let isCreated = false
+  await createUserWithEmailAndPassword(auth, details.email, details.password).then(userCredential => {
+    updateProfile(userCredential.user, {
+    displayName: details.name + " " + details.surname
+   })
+   isCreated = true
+   Loading.hide()
+  }).catch(err => {
+
+    Loading.hide()
+    Notify.create({
+      type: 'negative',
+      message: err.message
+    })
+    console.log(err.message)
+  })
+
+  return isCreated;
+}
+
+async function addUser(details){
+  try {
+    await addDoc(userCollection, {
+      email: details.email,
+      userId: userID,
+      name: details.name,
+      surname: details.surname,
+      username: details.username,
+    });
+    console.log("Succesfull Registration");
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function userSignOut(){
+  await signOut(auth).then(() => {
+    Loading.hide()
+    // resolve()
+   }).catch(err => {
+    Loading.hide()
+    Notify.create({
+     type: 'negative',
+     message: err.message
+    })
+    // reject(err.message)
+   })
+}
+
+async function login(details){
+  let isLoggedIn = false
+  Loading.show()
+  await signInWithEmailAndPassword(auth, details.email, details.password).then(userCredential => {
+    isLoggedIn = true
+    Loading.hide()
+    //  resolve(userCredential.user)
+    }).catch(err => {
+      Loading.hide()
+      Notify.create({
+        type: 'negative',
+        message: err.message
+     })
+    //  reject(err.message)
+    })
+  return isLoggedIn
+}
+
+export { db, auth, storage, currentUser, login , userSignOut, userRegistration, addUser};
