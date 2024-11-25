@@ -60,11 +60,9 @@
  </template>
 
  <script setup>
-import { useUserStore } from 'src/stores/StoreUsers';
+import {login} from 'src/firebase/firebase';
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router';
-
-const store = useUserStore()
 
  const user = reactive({
   email: null,
@@ -75,7 +73,7 @@ const store = useUserStore()
  const router = useRouter()
 
  const submit = async () => {
-  if (form.value.validate() && await store.login(user)) {
+  if (form.value.validate() && await login(user)) {
       router.push('/app')
     }
     user.email = null
