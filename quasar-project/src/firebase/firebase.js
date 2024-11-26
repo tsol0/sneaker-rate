@@ -27,13 +27,17 @@ const auth = getAuth(app);
 
 const storage = getStorage(app);
 
+let currentUser = null
 
 onAuthStateChanged(auth, user =>{
-  if (user) LocalStorage.set('user', user)
-    else LocalStorage.remove("user")
+  if (user) {
+    LocalStorage.set('user', user)
+    currentUser = user
+  }
+  else LocalStorage.remove("user")
 })
 
-const currentUser = auth.currentUser;
+// const currentUser = auth.currentUser;
 
 async function userRegistration(details){
   Loading.show()
@@ -72,7 +76,7 @@ async function addUser(details){
   }
 }
 
-async function userSignOut(){
+async function signingOut(){
   await signOut(auth).then(() => {
     Loading.hide()
     // resolve()
@@ -84,6 +88,8 @@ async function userSignOut(){
     })
     // reject(err.message)
    })
+   console.log(currentUser)
+
 }
 
 async function login(details){
@@ -92,6 +98,7 @@ async function login(details){
   await signInWithEmailAndPassword(auth, details.email, details.password).then(userCredential => {
     isLoggedIn = true
     Loading.hide()
+    console.log(currentUser)
     //  resolve(userCredential.user)
     }).catch(err => {
       Loading.hide()
@@ -104,4 +111,4 @@ async function login(details){
   return isLoggedIn
 }
 
-export { db, auth, storage, currentUser, login , userSignOut, userRegistration, addUser};
+export { db, auth, storage, currentUser, login , signingOut, userRegistration, addUser};
