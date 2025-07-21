@@ -2,20 +2,19 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signOut, updateProfile, signInWithEmailAndPassword} from "firebase/auth";
-import { LocalStorage } from "quasar";
 import { getStorage } from "firebase/storage"
-import { Loading, Notify } from "quasar";
+import { Loading, Notify, LocalStorage } from "quasar";
 
+// not tested but dont secs
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyB8m-i5A_tgRDNmKyCZBIxj7hNB5bFYPFk",
-  authDomain: "shoe-blogger-app.firebaseapp.com",
-  projectId: "shoe-blogger-app",
-  storageBucket: "shoe-blogger-app.appspot.com",
-  messagingSenderId: "663573109748",
-  appId: "1:663573109748:web:48029211cdba0df6a077a1",
-  storageBucket: "shoe-blogger-app.appspot.com"
+  apiKey: process.env.API_KEY,
+  authDomain: process.env.AUTH_DOMAIN,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: process.env.STORAGE_BUCKET,
+  messagingSenderId: process.env.MESSAGING_SENDER_ID,
+  appId: process.env.APP_ID,
 };
 
 // Initialize Firebase
